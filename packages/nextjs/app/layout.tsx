@@ -5,15 +5,12 @@ import { ThemeProvider } from "~~/components/ThemeProvider";
 import { EmailLoginWelcomeFlow } from "~~/components/onboarding";
 import { useOnboarding } from "~~/hooks/useOnboarding";
 import "~~/styles/globals.css";
-import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
-// This is a workaround for the 'use client' directive with metadata
-export const metadata = getMetadata({
-  title: "Nuru - Light up your payments",
-  description: "Voice-powered crypto remittances for Africa. Built with ✨ at ETH Accra 2024",
-  themeColor: "#12B76A",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
-});
+// Note: Metadata cannot be exported from client components in Next.js
+// If metadata is needed, it should be in a separate layout file without "use client"
+
+// Force dynamic rendering to prevent static generation issues with wagmi hooks
+export const dynamic = 'force-dynamic';
 
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   const { shouldShowOnboarding, isCheckingSession, handleOnboardingComplete } = useOnboarding();

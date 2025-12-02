@@ -7,6 +7,9 @@ export const metadata = getMetadata({
   description: "Debug your deployed 🏗 Scaffold-ETH 2 contracts in an easy way",
 });
 
+// Force dynamic rendering to prevent static generation issues with wagmi hooks
+export const dynamic = 'force-dynamic';
+
 const Debug: NextPage = () => {
   return (
     <>

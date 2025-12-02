@@ -5,6 +5,9 @@ export const metadata = getMetadata({
   description: "Block Explorer created with 🏗 Scaffold-ETH 2",
 });
 
+// Force dynamic rendering to prevent static generation issues with wagmi hooks
+export const dynamic = 'force-dynamic';
+
 const BlockExplorerLayout = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };

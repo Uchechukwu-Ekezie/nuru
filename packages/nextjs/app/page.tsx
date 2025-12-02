@@ -5,6 +5,9 @@ import { useAccount } from "wagmi";
 import { LandingPage } from "~~/components/LandingPage";
 import { NuruDemoInterface } from "~~/components/voicepay/NuruDemoInterface";
 
+// Force dynamic rendering to prevent static generation issues with wagmi hooks
+export const dynamic = 'force-dynamic';
+
 /**
  * Main Home Page
  *

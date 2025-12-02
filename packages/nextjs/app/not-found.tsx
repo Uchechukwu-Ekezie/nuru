@@ -1,5 +1,8 @@
 import Link from "next/link";
 
+// Force dynamic rendering to prevent static generation issues
+export const dynamic = 'force-dynamic';
+
 export default function NotFound() {
   return (
     <div className="flex items-center h-full flex-1 justify-center bg-base-200">

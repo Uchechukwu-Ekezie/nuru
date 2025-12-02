@@ -3,7 +3,7 @@
 import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
 import { useAccount, useDisconnect } from "wagmi";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon, DevicePhoneMobileIcon } from "@heroicons/react/24/outline";
 import { useWalletConnection } from "~~/hooks/scaffold-eth/useWalletConnection";
 import { ConnectionError } from "~~/components/scaffold-eth/ConnectionError";
 
@@ -192,7 +192,7 @@ export const WalletConnectModal = () => {
 
           {/* Wallet Options */}
           <div className="p-6 space-y-3">
-            {WALLET_OPTIONS.map((wallet) => (
+            {BASE_WALLET_OPTIONS.map((wallet) => (
               <button
                 key={wallet.id}
                 onClick={() => handleConnect(wallet.id)}
@@ -220,136 +220,21 @@ export const WalletConnectModal = () => {
                     {isConnecting && connectingWallet === wallet.id ? "Connecting..." : wallet.description}
                   </p>
                 </div>
-                <p className="text-sm text-gray-500 mb-4">
-                  Scan this QR code with {selectedWallet.name} to connect
-                </p>
-                <button
-                  onClick={() => setShowQRCode(false)}
-                  className="text-sm text-[#12B76A] hover:underline"
+                <svg
+                  className="w-5 h-5 text-base-content/40 group-hover:text-[#12B76A] transition-colors"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
                 >
-                  ← Back to wallet list
-                </button>
-              </div>
-            ) : (
-              <>
-                <h3 className="text-sm font-medium text-gray-500 mb-2">RECOMMENDED</h3>
-                {sortedWalletOptions
-                  .filter(wallet => wallet.isInstalled || wallet.isMobilePreferred)
-                  .map((wallet) => (
-                    <div
-                      key={wallet.id}
-                      className="group relative"
-                    >
-                      <button
-                        onClick={() => handleConnect(wallet)}
-                        disabled={isPending}
-                        className={`w-full p-4 rounded-xl border-2 ${
-                          wallet.isInstalled 
-                            ? 'border-[#12B76A] bg-[#12B76A]/5' 
-                            : 'border-base-300 hover:border-[#12B76A] hover:bg-[#12B76A]/5'
-                        } transition-all duration-200 flex items-center gap-4 disabled:opacity-50 disabled:cursor-not-allowed`}
-                      >
-                        <div className="w-12 h-12 rounded-xl bg-base-200 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                          <Image
-                            src={wallet.icon}
-                            alt={wallet.name}
-                            width={32}
-                            height={32}
-                            className="rounded-lg"
-                          />
-                        </div>
-                        <div className="flex-1 text-left">
-                          <div className="flex items-center gap-2">
-                            <h3 className="font-semibold text-base-content group-hover:text-[#12B76A] transition-colors">
-                              {wallet.name}
-                            </h3>
-                            {wallet.isInstalled && (
-                              <span className="text-xs bg-[#12B76A]/10 text-[#12B76A] px-2 py-0.5 rounded-full">
-                                Installed
-                              </span>
-                            )}
-                          </div>
-                          <p className="text-sm text-base-content/60">
-                            {wallet.description}
-                          </p>
-                        </div>
-                        {isMobile && wallet.deepLink ? (
-                          <span className="text-xs text-[#12B76A] flex items-center gap-1">
-                            Open <ArrowTopRightOnSquareIcon className="w-4 h-4" />
-                          </span>
-                        ) : (
-                          <svg
-                            className="w-5 h-5 text-base-content/40 group-hover:text-[#12B76A] transition-colors"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M9 5l7 7-7 7"
-                            />
-                          </svg>
-                        )}
-                      </button>
-                      
-                      {!wallet.isInstalled && isMobile && wallet.id !== 'walletconnect' && (
-                        <div className="absolute -bottom-2 right-0">
-                          <a
-                            href={wallet.installLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[10px] bg-black/80 text-white px-2 py-0.5 rounded-full hover:bg-black transition-colors flex items-center gap-1"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            Install {wallet.name}
-                          </a>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-
-                <div className="pt-4">
-                  <h3 className="text-sm font-medium text-gray-500 mb-2">OTHER OPTIONS</h3>
-                  <button
-                    onClick={() => handleShowQRCode({ 
-                      id: 'walletconnect', 
-                      name: 'WalletConnect', 
-                      icon: '/wallets/walletconnect.svg',
-                      description: 'Scan with any wallet app',
-                      connector: 'walletConnect'
-                    })}
-                    className="w-full p-4 rounded-xl border-2 border-base-300 hover:border-[#12B76A] hover:bg-[#12B76A]/5 transition-all duration-200 flex items-center gap-4"
-                  >
-                    <div className="w-12 h-12 rounded-xl bg-base-200 flex items-center justify-center flex-shrink-0">
-                      <QrCodeIcon className="w-6 h-6 text-base-content/70" />
-                    </div>
-                    <div className="flex-1 text-left">
-                      <h3 className="font-semibold text-base-content">
-                        QR Code
-                      </h3>
-                      <p className="text-sm text-base-content/60">
-                        Scan with any wallet app
-                      </p>
-                    </div>
-                    <svg
-                      className="w-5 h-5 text-base-content/40 group-hover:text-[#12B76A] transition-colors"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </>
-            )}
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+            ))}
           </div>
 
           {/* Footer */}

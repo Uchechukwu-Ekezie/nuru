@@ -14,6 +14,10 @@ const nextConfig: NextConfig = {
     config.externals.push("pino-pretty", "lokijs", "encoding");
     return config;
   },
+  // Skip static optimization - all pages use client-side rendering with wagmi
+  experimental: {
+    isrMemoryCacheSize: 0,
+  },
 };
 
 const isIpfs = process.env.NEXT_PUBLIC_IPFS_BUILD === "true";
